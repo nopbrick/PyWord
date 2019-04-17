@@ -1,6 +1,6 @@
-# WordPy
+# PyWord
 
-WordPy is a python script to create wordlists of any kind. Initially created to create most common passwords wordlist suited for your needs. 
+PyWord is a python script to create wordlists of any kind. Initially created to create most common passwords wordlist suited for your needs. 
 
 ![PyWord](/preview.png)
 
