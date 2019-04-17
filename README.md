@@ -36,4 +36,4 @@ optional arguments:
 
 <p></p>
 <a href="https://www.buymeacoffee.com/hydLneBap" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/black_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a><p></p>
-If you like my project and want me to keep expanding it, you can donate below. 
+If you like my project and want me to keep expanding it, you can donate with BuyMeaCoffee button above. 
