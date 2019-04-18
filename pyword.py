@@ -46,6 +46,15 @@ def get_long_year_pass(months, endFile):
         passwd=str(month)+currentDate.strftime("%Y")
         endFile.write(passwd+'\n')
 
+
+def get_long_year_pass_test(myDict, endFile, *args):
+        for key in myDict.items():
+                for item in key[1]:
+                        passwd=str(item)+currentDate.strftime("%Y")
+                        endFile.write(passwd+'\n')
+
+
+
 def get_long_year_pass_lower(months, endFile):
     for month in months:
         passwd=str(month)+currentDate.strftime("%Y")
@@ -130,7 +139,8 @@ def main():
                 get_short_year_pass_lower(varDict[words],wordlist)
                 get_long_year_pass_lower(varDict[words],wordlist)
 
-        #if args.get_all_langs:
+        if args.get_all_langs:
+                get_long_year_pass_test(varDict,wordlist)
 
         
         wordlist.close()
