@@ -31,10 +31,24 @@ monthsPl = [
         'Listopad',
         'Grudzien'
 ]
+monthsEs = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviebre',
+        'Diciembre'
+]
 
 #END of data
 
-varDict = {'monthsEng': monthsEng, 'monthsPl': monthsPl}
+varDict = {'monthsEng': monthsEng, 'monthsPl': monthsPl, 'monthsEs': monthsEs}
 
 #START of functions
 
@@ -47,12 +61,19 @@ def get_long_year_pass(months, endFile):
         endFile.write(passwd+'\n')
 
 
-def get_long_year_pass_test(myDict, endFile, *args):
+def get_all_languages(myDict, endFile, *args):
         for key in myDict.items():
                 for item in key[1]:
                         passwd=str(item)+currentDate.strftime("%Y")
                         endFile.write(passwd+'\n')
 
+def get_langs(myDict, endFile, argDict):
+        for item in argDict:
+                tempVar = "months" + item
+                if tempVar in myDict:
+                        for stuff in myDict[tempVar]:
+                                passwd=str(stuff)+currentDate.strftime("%Y")
+                                endFile.write(passwd+'\n')
 
 
 def get_long_year_pass_lower(months, endFile):
@@ -87,9 +108,9 @@ def main():
                                 help="Creates a wordlist file. "
                                 )
         parser.add_argument("--lang",
-                                action="store",
+                                nargs='+',
                                 default="Eng",
-                                dest="lang_dict",
+                                dest='lang_dict',
                                 help="Limit word list to certain languages: Pl, Eng"
                                 )
         parser.add_argument("--short",
@@ -114,7 +135,7 @@ def main():
                                 )
 
         args = parser.parse_args()
-        words = "months" + args.lang_dict
+        #words = "months" + args.lang_dict
 
 
         print("""
@@ -140,10 +161,14 @@ def main():
                 get_long_year_pass_lower(varDict[words],wordlist)
 
         if args.get_all_langs:
-                get_long_year_pass_test(varDict,wordlist)
+                get_all_languages(varDict,wordlist)
 
-        
+        if args.lang_dict:
+                get_langs(varDict,wordlist,args.lang_dict)
+
         wordlist.close()
+        for lan in args.lang_dict:
+                print(lan)
         print("Wordlist created successfully!\n")
 
 if __name__ == "__main__":
