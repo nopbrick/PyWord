@@ -1,5 +1,5 @@
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-import datetime
+import datetime, os
 
 
 
@@ -57,21 +57,46 @@ varDict = {'monthsEng': monthsEng, 'monthsPl': monthsPl, 'monthsEs': monthsEs}
 
 #Creates words with current year ending as yyyy
 def get_long_year_pass(myDict, endFile, argDict, yearDict):
-        for item in argDict:
-                tempVar = "months" + item
-                if tempVar in myDict:
-                        for stuff in myDict[tempVar]:
-                                if not yearDict:
-                                        passwd=str(stuff)+currentDate.strftime("%Y")
-                                        endFile.write(passwd+'\n')
-                                else:
-                                        for year in yearDict:
-                                                passwd=str(stuff)+str(year)
+        if len(argDict) == 1:
+                tempVar = "months" + str(argDict[0])
+        else:
+                for item in argDict:
+                        tempVar = "months" + item
+                        if tempVar in myDict:
+                                for stuff in myDict[tempVar]:
+                                        if not yearDict:
+                                                passwd=str(stuff)+currentDate.strftime("%Y")
                                                 endFile.write(passwd+'\n')
+                                        else:
+                                                for year in yearDict:
+                                                        passwd=str(stuff)+str(year)
+                                                        endFile.write(passwd+'\n')
+
+def get_years(myDict, endFile, argDict, yearDict):
+        if len(argDict) == 1:
+                tempVar = "months" + str(argDict[0])
+        else:
+                for item in argDict:
+                        tempVar = "months" + item
+                        if tempVar in myDict:
+                                for stuff in myDict[tempVar]:
+                                        if not yearDict:
+                                                passwd=str(stuff)+currentDate.strftime("%y")
+                                                endFile.write(passwd+'\n')
+                                        else:
+                                                for year in yearDict:
+                                                        passwd=str(stuff)+str(year[-2:])
+                                                        endFile.write(passwd+'\n')
                                 
 
 #Creates a wordlist with all languages starting with capital letter and long date format
 def get_all_languages(myDict, endFile, *args):
+        for key in myDict.items():
+                for item in key[1]:
+                        passwd=str(item)+currentDate.strftime("%y")
+                        endFile.write(passwd+'\n')
+
+def get_all_languages_long(myDict, endFile, *args):
         for key in myDict.items():
                 for item in key[1]:
                         passwd=str(item)+currentDate.strftime("%Y")
@@ -79,21 +104,38 @@ def get_all_languages(myDict, endFile, *args):
 
 #Creates a wordlist with specified languages
 def get_langs(myDict, endFile, argDict, yearDict):
-        for item in argDict:
-                tempVar = "months" + item
-                if tempVar in myDict:
-                        for stuff in myDict[tempVar]:
-                                if not yearDict:
-                                        passwd=str(stuff)+currentDate.strftime("%y")
-                                else:
-                                        for year in yearDict:
-                                                passwd=str(stuff)+str(year[-2:])
-                                endFile.write(passwd+'\n')
+        if len(argDict) == 1:
+                tempVar = "months" + str(argDict[0])
+        else:
+                for item in argDict:
+                        tempVar = "months" + item
+                        if tempVar in myDict:
+                                for stuff in myDict[tempVar]:
+                                        if not yearDict:
+                                                passwd=str(stuff)+currentDate.strftime("%y")
+                                        else:
+                                                for year in yearDict:
+                                                        passwd=str(stuff)+str(year[-2:])
+                                        endFile.write(passwd+'\n')
 
 
-""" def get_year(myDict, endFile, argDict):
-        for item in argDict """
-
+def get_all_cases():
+        endFile = open("wordlist.txt", "r")
+        content = endFile.readlines()
+        tempFile = open("temp.txt", "w+")
+        for line in content:
+                passwd = line.lower()
+                tempFile.write(passwd)
+        endFile.close()
+        tempFile.close()
+        endFile = open("wordlist.txt", 'a')
+        tempFile = open("temp.txt", "r")
+        content = tempFile.readlines()
+        for line in content:
+                endFile.write(line)
+        endFile.close()
+        tempFile.close()
+        os.remove("temp.txt")
 
 def get_long_year_pass_lower(months, endFile):
     for month in months:
@@ -128,7 +170,7 @@ def main():
                                 dest='year_dict',
                                 help="Specify years to create a wordlist with: pass strings in yyyy format. "
                                 )
-        parser.add_argument("--lang",
+        parser.add_argument("--langs",
                                 nargs='+',
                                 default="Eng",
                                 dest='lang_dict',
@@ -173,20 +215,25 @@ def main():
         if args.get_long_year:
                 get_long_year_pass(varDict, wordlist, args.lang_dict, args.year_dict)
 
-        if args.get_all_cases:
-                get_short_year_pass_lower(varDict[words],wordlist)
-                get_long_year_pass_lower(varDict[words],wordlist)
-
         if args.get_all_langs:
                 get_all_languages(varDict,wordlist)
 
+        if args.get_all_langs and args.get_long_year:
+                get_all_languages(varDict,wordlist)
+                get_all_languages_long(varDict, wordlist)
+
         if args.year_dict:
-                get_long_year_pass(varDict, wordlist, args.lang_dict, args.year_dict)
+                get_years(varDict, wordlist, args.lang_dict, args.year_dict)
 
         if args.lang_dict:
                 get_langs(varDict,wordlist,args.lang_dict,args.year_dict)
 
         wordlist.close()
+        if args.get_all_cases:
+                get_all_cases()
+                
+
+
         for lan in args.lang_dict:
                 print(lan)
         print("Wordlist created successfully!\n")
