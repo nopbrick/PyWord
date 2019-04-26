@@ -63,10 +63,12 @@ def get_long_year_pass(myDict, endFile, argDict, yearDict):
                         for stuff in myDict[tempVar]:
                                 if not yearDict:
                                         passwd=str(stuff)+currentDate.strftime("%Y")
+                                        endFile.write(passwd+'\n')
                                 else:
                                         for year in yearDict:
                                                 passwd=str(stuff)+str(year)
-                                endFile.write(passwd+'\n')
+                                                endFile.write(passwd+'\n')
+                                
 
 #Creates a wordlist with all languages starting with capital letter and long date format
 def get_all_languages(myDict, endFile, *args):
@@ -177,6 +179,9 @@ def main():
 
         if args.get_all_langs:
                 get_all_languages(varDict,wordlist)
+
+        if args.year_dict:
+                get_long_year_pass(varDict, wordlist, args.lang_dict, args.year_dict)
 
         if args.lang_dict:
                 get_langs(varDict,wordlist,args.lang_dict,args.year_dict)
