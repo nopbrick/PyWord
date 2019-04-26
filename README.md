@@ -20,18 +20,21 @@ $ cd PyWord
 
 ```bash
 $ python3 pyword.py --help
-usage: pyword.py [-h] [--file] [--lang LANG_DICT] [--short] [--long]
-                 [--allcase] [--alllangs]
+usage: pyword.py [-h] [--years YEAR_DICT [YEAR_DICT ...]]
+                 [--langs LANG_DICT [LANG_DICT ...]] [--long] [--allcase]
+                 [--alllangs]
 
 optional arguments:
-  -h, --help        show this help message and exit
-  --file            Creates a wordlist file.
-  --lang LANG_DICT  Limit word list to certain languages: Pl, Eng
-  --short           Add short year format
-  --long            Add long year format
-  --allcase         Create wordlist both with regular words and lowercase
-                    words
-  --alllangs        Create a wordlist using all supported languages
+  -h, --help            show this help message and exit
+  --years YEAR_DICT [YEAR_DICT ...]
+                        Specify years to create a wordlist with: pass strings
+                        in yyyy format.
+  --langs LANG_DICT [LANG_DICT ...]
+                        Limit word list to certain languages: Pl, Eng
+  --long                Add long year format
+  --allcase             Create wordlist both with regular words and lowercase
+                        words
+  --alllangs            Create a wordlist using all supported languages
 ```
 
 <p></p>
