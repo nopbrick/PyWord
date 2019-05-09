@@ -46,9 +46,25 @@ monthsEs = [
         'Diciembre'
 ]
 
+monthsDe = [
+        'Januar',
+        'Janner',
+        'Februar',
+        'Marz',
+        'April',
+        'Mai',
+        'Juni',
+        'Juli',
+        'August',
+        'September',
+        'Oktober',
+        'November',
+        'Dezember'
+]
+
 #END of data
 currentDate = datetime.datetime.now()
-varDict = {'monthsEng': monthsEng, 'monthsPl': monthsPl, 'monthsEs': monthsEs}
+varDict = {'monthsEng': monthsEng, 'monthsPl': monthsPl, 'monthsEs': monthsEs, 'monthsDe': monthsDe}
 
 
 #START of functions
@@ -114,8 +130,11 @@ def get_langs(myDict, endFile, argDict, yearDict):
                                         if not yearDict:
                                                 passwd=str(stuff)+currentDate.strftime("%y")
                                         else:
-                                                for year in yearDict:
-                                                        passwd=str(stuff)+str(year[-2:])
+                                                if type(yearDict) is str:
+                                                        passwd=str(stuff)+str(yearDict[-2:])
+                                                else:
+                                                        for year in yearDict:
+                                                                passwd=str(stuff)+str(year[-2:])
                                         endFile.write(passwd+'\n')
 
 
@@ -174,14 +193,14 @@ def main():
                                 nargs='+',
                                 default="Eng",
                                 dest='lang_dict',
-                                help="Limit word list to certain languages: Pl, Eng"
+                                help="Limit word list to certain languages: Pl, Eng, Es"
                                 )
         parser.add_argument("--long",
                                 action="store_true", 
                                 dest="get_long_year",
                                 help="Add long year format"
                                 )
-        parser.add_argument("--allcase",
+        parser.add_argument("--allcases",
                                 action="store_true", 
                                 dest="get_all_cases",
                                 help="Create wordlist both with regular words and lowercase words"
