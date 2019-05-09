@@ -193,7 +193,7 @@ def main():
                                 nargs='+',
                                 default="Eng",
                                 dest='lang_dict',
-                                help="Limit word list to certain languages: Pl, Eng, Es"
+                                help="Limit word list to certain languages: Pl, Eng, Es, De"
                                 )
         parser.add_argument("--long",
                                 action="store_true", 
